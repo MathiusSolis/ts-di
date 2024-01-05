@@ -1,5 +1,14 @@
 {
-  "devDependencies": {
+  "name": "ts-di",
+  "description": "Eta libreria realiza inyecciones en tiempo de ejecución y compilación, el proposito de esta libreía es que pueda ser util en proyectos, pero, principalmente esta librería tiene como proposito documentar como  se puede realizar una librería propia inyección de dependencias en tiempo de ejecución como de compilación.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run tsc --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
     "typescript": "^5.3.3"
   }
 }
