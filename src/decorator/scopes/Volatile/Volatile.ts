@@ -4,5 +4,5 @@ import { Class } from "../../../types/types";
 import { VolatileScope } from "./VolatileScope";
 
 export const Volatile = <Klass extends Class>(Klass: Klass, _: ClassDecoratorContext) => {
-    Container.setDependency(new VolatileScope(Klass.name, Klass));
+    // Container.setDependency(new VolatileScope(Klass.name, Klass));
 };
