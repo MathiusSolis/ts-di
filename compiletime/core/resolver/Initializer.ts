@@ -1,11 +1,11 @@
-import { TransformationContext, Node, SourceFile, visitNode, visitEachChild } from "typescript";
+import { TransformationContext, Node, SourceFile, visitNode, visitEachChild, updateSourceFile } from "typescript";
 import { IResolverConfig } from "./IResolver";
 import { Resolver } from "./Resolver";
 
 const Initializer = (Configuration: { new(): IResolverConfig }) => {
     const config = new Configuration();
 
-    const resolver = Resolver.getResolver();
+    const resolver = Resolver.instance;
 
     config.initResolver(resolver);
 
@@ -16,11 +16,21 @@ const Initializer = (Configuration: { new(): IResolverConfig }) => {
                     const children = sourceFile.getChildren();
                     const count = children.length;
 
+                    const newChildren: Array<Node> = []
+
                     for (let index = 0; index < count; index++) {
-                        resolver.getRegisteredVisitor[children[index]]();
+                        const node = children[index];
+
+                        const visitor = resolver.getRegisteredVisitor(node.kind);
+                        
+                        if (visitor) {
+                            const newNode = visitor.handle(node);
+                            // if (node !== newNode)
+                            // TODO: Validar nodos 
+                        }
                     }
                     
-                    return sourceFile; // TODO: Here return transform visitors.
+                    return sourceFile;
                 }
                 return visitNode(sourceFile, visit);
             };

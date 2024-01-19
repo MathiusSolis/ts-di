@@ -1,13 +1,16 @@
+import { SyntaxKind } from "typescript";
+import { GetterVisitor } from "./GetterVisitor";
+
 export interface IRegisterVisitor {
-    registerVisitor(visitor: any): void
+    registerVisitor(key: SyntaxKind | string, visitor: GetterVisitor): void
 }
 
 export interface IRegisteredVisitor {
-    getRegisteredVisitor(key: any): any;
+    getRegisteredVisitor(key: SyntaxKind | string): GetterVisitor;
 }
 
 export interface IResolve {
-    resolve(from: any, to: any): void;
+    resolve<Type>(visitor: { new (): Type }): void;
 }
 
 export interface IResolverConfig {

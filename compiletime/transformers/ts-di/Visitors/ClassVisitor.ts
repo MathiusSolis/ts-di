@@ -1,18 +1,7 @@
 import { ClassDeclaration, Node, PropertyDeclaration, SyntaxKind } from "typescript";
-import { Resolver } from "../../../core/resolver/Resolver";
+import { ResolveVisitor, IsVisitorOf } from "../../../core/resolver/ResolveVisitor";
 
-const IsVisitorOf = (syntaxKind: SyntaxKind) => (_: Function, ctx: ClassMethodDecoratorContext) => {
-    const resolver = Resolver.resolver;
-
-    const handle = (node: Node, name: string) => {
-        const instance = resolver.getRegisteredVisitor(name);
-        instance[_.name](node);
-    };
-
-    resolver.registerVisitor(syntaxKind, );
-};
-
-// @Resolve
+@ResolveVisitor
 class ClassVisitor {
     @IsVisitorOf(SyntaxKind.ClassDeclaration)
     public visitClass(classDeclaration: ClassDeclaration): Node {

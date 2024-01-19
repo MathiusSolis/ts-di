@@ -1,28 +1,31 @@
-import { Node } from 'typescript';
+import { Node, SyntaxKind } from 'typescript';
 import { IResolverContainer } from "./IResolver";
+import { GetterVisitor } from './GetterVisitor';
+import { IMetadataResolver } from '../metadata/IMetadataResolver';
 
 class Resolver implements IResolverContainer {
-    public static resolver: IResolverContainer;
+    public static instance: IResolverContainer;
 
     static {
-        this.resolver = new Resolver();
+        this.instance = new Resolver();
     }
 
-    private visitors: any = {
+    private visitors: { [index: string]: GetterVisitor } = {};
 
-    };
-
-
-    public registerVisitor(visitor: any): void {
-        throw new Error("Method not implemented.");
+    public registerVisitor(key: string | SyntaxKind, visitor: GetterVisitor): void {
+        this.visitors[key] = visitor;
     }
 
-    public getRegisteredVisitor(key: string) {
-        throw new Error("Method not implemented.");
+    public getRegisteredVisitor(key: string | SyntaxKind): GetterVisitor {
+        return this.visitors[key];
     }
 
-    public resolve(from: any, to: any): void {
-        throw new Error("Method not implemented.");
+    public resolve<Type>(Visitor: new () => Type): void {
+        const instance = new Visitor();
+
+        const metadata = Visitor.prototype.metadata as IMetadataResolver;
+
+        metadata.instance.value = instance;
     }
 }
 
